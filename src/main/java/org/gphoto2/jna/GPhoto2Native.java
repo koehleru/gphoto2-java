@@ -18,6 +18,9 @@
  */
 package org.gphoto2.jna;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.sun.jna.Library;
 import com.sun.jna.Native;
 import com.sun.jna.Pointer;
@@ -303,10 +306,8 @@ public interface GPhoto2Native extends Library {
      * function.
      */
     public static class CameraFilePath extends Structure {
-        {
-            setFieldOrder(new String[] { "name", "folder" });
-        }
-        /**
+
+    	/**
          * Name of the captured file.
          */
         public byte[] name = new byte[128];
@@ -316,7 +317,16 @@ public interface GPhoto2Native extends Library {
         public byte[] folder = new byte[1024];
 
         public static class ByReference extends CameraFilePath implements Structure.ByReference {
-        };
+        }
+
+		@SuppressWarnings("rawtypes")
+		@Override
+		protected List getFieldOrder() {
+			List<String> result = new ArrayList<String>();
+			result.add("name");
+			result.add("folder");
+			return result;
+		};
     }
     public static final int GP_WIDGET_WINDOW = 0;//  # Window widget This is the toplevel configuration widget. It should likely contain multiple GP_WIDGET_SECTION entries.
     public static final int GP_WIDGET_SECTION = 1;// # Section widget (think Tab).
